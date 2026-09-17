@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>گزارش پیشرفت کار — کالی</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFFFFF;
+    --cream-2:#F3F1EE;
+    --ink:#2A211D;
+    --ink-soft:#5B4F49;
+    --red:#AC1F1F;
+    --red-hover:#780000;
+    --rust:#8B6B54;
+    --mushroom:#B7927A;
+    --line:#E5E0D8;
+    --card-bg:#FFFFFF;
+    --done-green:#5C7A54;
+    --upcoming-amber:#A9762C;
+    --shadow: 0 1px 2px rgba(42,33,29,.06);
+    --font: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  }
+  :root:not([data-theme="light"]){
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream:#1C1613;
+      --cream-2:#241C18;
+      --ink:#F2E9DD;
+      --ink-soft:#C9B9AC;
+      --card-bg:#251E1A;
+      --line:#3B2F28;
+      --red:#C0392B;
+      --red-hover:#E05545;
+      --rust:#D9604F;
+      --mushroom:#B7927A;
+      --done-green:#7FA073;
+      --upcoming-amber:#D4A24C;
+      --shadow: 0 1px 3px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --cream:#1C1613;
+    --cream-2:#241C18;
+    --ink:#F2E9DD;
+    --ink-soft:#C9B9AC;
+    --card-bg:#251E1A;
+    --line:#3B2F28;
+    --red:#C0392B;
+    --red-hover:#E05545;
+    --rust:#D9604F;
+    --mushroom:#B7927A;
+    --done-green:#7FA073;
+    --upcoming-amber:#D4A24C;
+    --shadow: 0 1px 3px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font);
+    line-height:1.6;
+    min-height:100vh;
+    padding-bottom:48px;
+  }
+
+  /* ---- header ---- */
+  header{
+    padding:28px 20px 0;
+    max-width:920px;
+    margin:0 auto;
+  }
+  .brand-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .brand-logo{
+    height:34px;
+    width:auto;
+    display:block;
+  }
+  .brand span.tag{
+    font-size:14px;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+  .updated{
+    font-size:13px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .sub{
+    margin:6px 0 0;
+    color:var(--ink-soft);
+    font-size:14.5px;
+    max-width:60ch;
+  }
+
+  /* ---- kilim guard band ---- */
+  .motif{
+    height:12px;
+    margin:22px auto 0;
+    max-width:920px;
+    background-image:
+      linear-gradient(135deg, var(--cream) 25%, transparent 25%),
+      linear-gradient(225deg, var(--cream) 25%, transparent 25%),
+      linear-gradient(315deg, var(--cream) 25%, transparent 25%),
+      linear-gradient(45deg, var(--cream) 25%, var(--red) 25%);
+    background-position: 0 0, 6px 0, 6px -6px, 0px 6px;
+    background-size: 12px 12px;
+    opacity:.85;
+  }
+
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:22px 20px 0;
+  }
+
+  /* ---- tabs ---- */
+  .tabs{
+    display:flex;
+    gap:8px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:18px;
+  }
+  .tab-btn{
+    appearance:none;
+    border:none;
+    background:none;
+    font-family:var(--font);
+    font-size:15.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    padding:10px 4px 12px;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .tab-btn .count{
+    font-size:12px;
+    font-weight:700;
+    background:var(--cream-2);
+    color:var(--ink-soft);
+    border-radius:20px;
+    padding:1px 8px;
+  }
+  .tab-btn[aria-selected="true"]{
+    color:var(--ink);
+  }
+  .tab-btn[aria-selected="true"] .count{
+    background:var(--red);
+    color:#fff;
+  }
+  .tab-btn[aria-selected="true"]::after{
+    content:"";
+    position:absolute;
+    right:0;left:0;bottom:-1px;
+    height:2px;
+    background:var(--red);
+    border-radius:2px;
+  }
+  .tab-btn + .tab-btn{ margin-inline-start:8px; }
+
+  /* ---- domain filter chips ---- */
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .chip{
+    appearance:none;
+    cursor:pointer;
+    font-family:var(--font);
+    font-size:13.5px;
+    font-weight:600;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--card-bg);
+    color:var(--ink-soft);
+    transition:.15s ease;
+  }
+  .chip[aria-pressed="true"]{
+    background:var(--ink);
+    color:var(--cream);
+    border-color:var(--ink);
+  }
+
+  /* ---- domain groups ---- */
+  .group{ margin-bottom:26px; }
+  .group-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+  }
+  .group-title .dot{
+    width:8px;height:8px;border-radius:50%;
+    flex:none;
+  }
+  .group-title .num{
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+
+  .card-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .card{
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-inline-start:4px solid var(--mushroom);
+    border-radius:10px;
+    padding:13px 16px;
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .card.dev{ border-inline-start-color:var(--red); }
+  .card.seo{ border-inline-start-color:var(--rust); }
+  .card.noon{ border-inline-start-color:var(--upcoming-amber); }
+
+  .card .status-icon{
+    flex:none;
+    width:20px;height:20px;
+    margin-top:2px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .card.is-done .status-icon{ background:color-mix(in srgb, var(--done-green) 18%, transparent); }
+  .card.is-upcoming .status-icon{ background:color-mix(in srgb, var(--upcoming-amber) 20%, transparent); }
+  .card .status-icon svg{ width:12px; height:12px; }
+  .card.is-done .status-icon svg{ stroke:var(--done-green); }
+  .card.is-upcoming .status-icon svg{ stroke:var(--upcoming-amber); }
+
+  .card-body{ flex:1; min-width:0; }
+  .card-title{
+    font-size:15px;
+    font-weight:600;
+    margin:0 0 2px;
+    color:var(--ink);
+  }
+  .card-note{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .card-meta{
+    flex:none;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-soft);
+    background:var(--cream-2);
+    padding:3px 9px;
+    border-radius:7px;
+    white-space:nowrap;
+  }
+
+  .empty{
+    text-align:center;
+    color:var(--ink-soft);
+    padding:40px 10px;
+    font-size:14.5px;
+  }
+
+  /* ---- insights tab ---- */
+  .insights-section{ margin-bottom:32px; }
+  .insights-heading{
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 4px;
+  }
+  .insights-sub{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+
+  .funnel-row{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:10px;
+  }
+  .funnel-stage{
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 12px;
+    text-align:center;
+    box-shadow:var(--shadow);
+  }
+  .funnel-stage .fs-label{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin:0 0 6px;
+  }
+  .funnel-stage .fs-value{
+    font-size:22px;
+    font-weight:800;
+    color:var(--ink);
+    margin:0;
+  }
+  .funnel-stage .fs-pct{
+    font-size:11px;
+    color:var(--upcoming-amber);
+    font-weight:700;
+    margin-top:4px;
+  }
+  .funnel-stage.zero .fs-value{ color:var(--red); }
+  .funnel-stage.zero .fs-pct{ color:var(--red); }
+
+  .table-wrap{
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--card-bg);
+  }
+  table.campaign-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12.5px;
+    min-width:560px;
+  }
+  table.campaign-table th, table.campaign-table td{
+    padding:9px 10px;
+    text-align:right;
+    white-space:nowrap;
+  }
+  table.campaign-table thead th{
+    font-weight:700;
+    color:var(--ink-soft);
+    background:var(--cream-2);
+    font-size:11.5px;
+  }
+  table.campaign-table tbody tr + tr{ border-top:1px solid var(--line); }
+  table.campaign-table td.num{ font-variant-numeric: tabular-nums; }
+  table.campaign-table tr.best td.name{ color:var(--done-green); font-weight:700; }
+  table.campaign-table tr.worst td.name{ color:var(--red); font-weight:700; }
+
+  .notes-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .note-item{
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-inline-start:4px solid var(--upcoming-amber);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:13.5px;
+    line-height:1.7;
+  }
+  .note-item b{ color:var(--ink); }
+
+  @media (max-width:560px){
+    .funnel-row{ grid-template-columns:repeat(2, 1fr); }
+  }
+
+  .split-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:16px;
+  }
+  .split-row .split-label{
+    display:flex;
+    justify-content:space-between;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .split-bar{
+    height:22px;
+    border-radius:6px;
+    overflow:hidden;
+    display:flex;
+    background:var(--cream-2);
+    border:1px solid var(--line);
+  }
+  .split-bar .seg-ads{
+    background:var(--red);
+  }
+  .split-bar .seg-organic{
+    background:var(--mushroom);
+  }
+  .split-values{
+    display:flex;
+    justify-content:space-between;
+    margin-top:5px;
+    font-size:11px;
+    font-weight:600;
+  }
+  .split-values .v-ads{ color:var(--red); }
+  .split-values .v-organic{ color:var(--mushroom); }
+  .split-legend{
+    display:flex;
+    gap:16px;
+    margin-top:10px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .split-legend span{ display:flex; align-items:center; gap:5px; }
+  .split-legend i{ width:9px; height:9px; border-radius:2px; display:inline-block; }
+
+  footer{
+    max-width:920px;
+    margin:34px auto 0;
+    padding:16px 20px 0;
+    border-top:1px solid var(--line);
+    color:var(--ink-soft);
+    font-size:12.5px;
+  }
+
+  @media (max-width:520px){
+    .brand-logo{ height:28px; }
+    .card{ padding:11px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-row">
+    <div class="brand">
+      <img class="brand-logo" alt="Kali" src="data:image/png;base64,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">
+      <span class="tag">گزارش پیشرفت کار</span>
+    </div>
+    <div class="updated" id="updated-label"></div>
+  </div>
+  <p class="sub">وضعیت کارهای در حال انجام و انجام‌شده روی پروژه‌ی کالی و فعالیت‌های مرتبط</p>
+</header>
+
+<div class="motif"></div>
+
+<main>
+  <div class="tabs" role="tablist">
+    <button class="tab-btn" role="tab" id="tab-upcoming" aria-selected="true" data-view="upcoming">
+      برنامه‌ریزی‌شده <span class="count" id="count-upcoming">0</span>
+    </button>
+    <button class="tab-btn" role="tab" id="tab-done" aria-selected="false" data-view="done">
+      انجام‌شده <span class="count" id="count-done">0</span>
+    </button>
+    <button class="tab-btn" role="tab" id="tab-insights" aria-selected="false" data-view="insights">
+      اینسایت نون
+    </button>
+  </div>
+
+  <div class="chips" id="domain-chips"></div>
+
+  <div id="list-root"></div>
+</main>
+
+<script>
+const DOMAINS = {
+  dev:   { label: 'دولوپ سایت',      color: 'var(--red)' },
+  seo:   { label: 'سئو',              color: 'var(--rust)' },
+  noon:  { label: 'پلتفرم نون',       color: 'var(--upcoming-amber)' },
+};
+
+// status: 'upcoming' | 'done'
+const TASKS = [
+  // ---------------- UPCOMING ----------------
+  { domain:'noon', status:'upcoming', title:'افزودن عکس‌های طراحی‌شده به بقیه محصولات', note:'برای ۲ محصول پربازدید انجام شد (پایین را ببینید)؛ ادامه برای بقیه محصولات' },
+  { domain:'noon', status:'upcoming', title:'کمپین تبلیغاتی عمومی بر اساس کلمات کلیدی عمومی' },
+  { domain:'dev',  status:'upcoming', title:'نهایی‌سازی صفحات فیلتر و صفحات دسته‌بندی' },
+  { domain:'dev',  status:'upcoming', title:'نهایی‌سازی باکس پیشنهاد فیلتر و روند آن برای دسته‌های فروشگاه' },
+  { domain:'dev',  status:'upcoming', title:'تکمیل مشکلات باقی‌مانده UI/UX در صفحات دسته‌بندی فروشگاه' },
+  { domain:'seo',  status:'upcoming', title:'نهایی‌سازی سئوی درون‌صفحه‌ای صفحات دسته‌بندی',
+    note:'متا تایتل، متا دیسکریپشن، H1، توضیحات/محتوای چندرسانه‌ای، نوایندکس دسته‌های کم‌عمق، تغییر نام برخی دسته‌ها' },
+
+  // ---------------- DONE — Noon / SEO ----------------
+  { domain:'seo',  status:'done', title:'کیورد ریسرچ اولیه برای دسته‌های فروشگاه' },
+  { domain:'seo',  status:'done', title:'تحلیل رقبا در بازار امارات', note:'بررسی رقبا در آمازون و وب‌سایت‌های رقیب' },
+  { domain:'seo',  status:'done', title:'تحلیل رقبا در بازار آلمان', note:'بررسی رقبا در آمازون و وب‌سایت‌های رقیب' },
+  { domain:'noon', status:'done', title:'افزودن محصولات به پلتفرم نون' },
+  { domain:'noon', status:'done', title:'تولید محتوای متنی انبوه برای محصولات' },
+  { domain:'noon', status:'done', title:'کیورد ریسرچ انگلیسی و عربی برای بازار امارات', note:'مبنای هدف‌گذاری کمپین‌های تبلیغاتی نون' },
+  { domain:'noon', status:'done', title:'تعریف و راه‌اندازی ۱۱ کمپین تبلیغاتی در نون', note:'کمپین‌های فعال (Live) برای کلمات کلیدی beige rug، prayer rug، silk rug، handmade rug، luxury rug، persian rug — به دو زبان انگلیسی و عربی' },
+  { domain:'noon', status:'done', title:'طراحی عکس دیزاین فضای منزل (Lifestyle) با Nano Banana 2', note:'برای ۲ محصول پربازدید — Modern Tabriz Pink Flower Rug و Tabriz Distressed Patina Rug' },
+  { domain:'noon', status:'done', title:'درخواست فعال‌سازی فروش در عربستان', note:'نتیجه: امکان فروش در عربستان فعلاً وجود ندارد' },
+
+  // ---------------- DONE — Dev (condensed from PROGRESS-LOG.md) ----------------
+  { domain:'dev', status:'done', title:'بازطراحی کامل نوار فیلتر به دکمه «فیلتر» + پنجره مودال', note:'ساختار لیست → زیرمنو برای هر فیلتر، مرتب‌سازی به‌صورت مستقل، الهام‌گرفته از Nain Trading' },
+  { domain:'dev', status:'done', title:'رفع باگ نمایش قیمت در فیلتر (NaN) و بهبود ظاهری مودال فیلتر' },
+  { domain:'seo', status:'done', title:'افزودن پسوند «Handmade Rugs» به عنوان و H1 تمام صفحات محصول برای سئوی بهتر' },
+  { domain:'dev', status:'done', title:'حذف انیمیشن محو‌شدن هنگام اسکرول از گرید محصولات', note:'نمایش سریع‌تر و بدون تأخیر بصری محصولات' },
+  { domain:'seo', status:'done', title:'گسترش سیستم فیلتر ترکیبی و پیشنهاد فیلتر به صفحات دسته‌بندی' },
+  { domain:'dev', status:'done', title:'افزایش تعداد محصولات نمایش‌داده‌شده در هر صفحه از ۲۴ به ۴۰' },
+  { domain:'dev', status:'done', title:'افزودن ردیف «پیشنهاد فیلتر بعدی» با آیکون رنگ، شکل و عکس محصول', note:'مشابه الگوی Nain Trading، برای راهنمایی مشتری در فیلتر کردن سریع‌تر' },
+  { domain:'seo', status:'done', title:'افزودن H1 و توضیحات سئو به تمام ۸ صفحه ویژگی محصول', note:'رنگ، متریال، شکل، بافت، اندازه، طرح، حس پارچه، مبدأ' },
+  { domain:'seo', status:'done', title:'ساخت آدرس‌دهی فیلتر ترکیبی (مثلاً مبدأ + رنگ + شکل در یک لینک) با پشتیبانی کامل سئو', note:'بردکرامب، canonical، و نوایندکس نتایج کم‌محصول' },
+  { domain:'dev', status:'done', title:'طراحی مجدد هاور کارت محصول و آیکون قلب علاقه‌مندی با دو حالت هاور' },
+  { domain:'dev', status:'done', title:'افزودن دکمه «نمایش بیشتر» به‌جای صفحه‌بندی عددی در صفحات دسته‌بندی' },
+  { domain:'seo', status:'done', title:'کاهش شدید حجم تصاویر سایت', note:'امتیاز سرعت گوگل (Lighthouse) از ۵۷ به ۸۹ رسید؛ حجم صفحه از ۴۳ مگابایت به ۱.۳ مگابایت کاهش یافت' },
+  { domain:'dev', status:'done', title:'بهینه‌سازی چیدمان گرید محصولات', note:'۵ ستون در نمای دسکتاپ، اندازه یکسان تصاویر، رفع کراپ نامناسب روی رول‌های بلند' },
+  { domain:'seo', status:'done', title:'افزودن H1، توضیحات سئو و بردکرامب به صفحات دسته‌بندی محصولات' },
+  { domain:'dev', status:'done', title:'رفع باگ‌های حیاتی فنی سایت', note:'اصلاح خرابی داده‌های فرم/ورودی سایت‌وایاد، رفع کرش صفحه محصول، ایمن‌سازی رمزهای عبور هاردکدشده در کد' },
+];
+
+let currentView = 'upcoming';
+let currentDomain = 'all';
+
+const INSIGHTS = {
+  period: '۱۸ اوت تا ۱۷ سپتامبر ۲۰۲۶',
+  funnel: [
+    { label: 'نمایش محصول (Impressions)', value: '4,751', pct: null },
+    { label: 'مشاهده صفحه محصول (GV)', value: '172', pct: '۴٪ از نمایش' },
+    { label: 'افزودن به سبد خرید', value: '10', pct: '۶٪ از مشاهده' },
+    { label: 'خرید نهایی', value: '0', pct: '۰٪ از سبد خرید', zero: true },
+  ],
+  campaigns: [
+    { name: 'Persian Rug - en', views: 545, clicks: 17, ctr: '3.12%', spend: '31.14', atc: 1, best: true },
+    { name: 'Silk Rug - en',    views: 29,  clicks: 2,  ctr: '6.90%', spend: '2.32',  atc: 0, best: true },
+    { name: 'Handmade Rug - en',views: 49,  clicks: 2,  ctr: '4.08%', spend: '1.78',  atc: 0 },
+    { name: 'beige rug',        views: 51,  clicks: 1,  ctr: '1.96%', spend: '4.59',  atc: 0 },
+    { name: 'Persian Rug - ar', views: 149, clicks: 4,  ctr: '2.68%', spend: '8.73',  atc: 0 },
+    { name: 'Prayer Rug - ar',  views: 92,  clicks: 1,  ctr: '1.09%', spend: '6.37',  atc: 0 },
+    { name: 'Luxury Rug - en',  views: 2,   clicks: 0,  ctr: '0.00%', spend: '0.00',  atc: 0, worst: true },
+    { name: 'Luxury Rug - ar',  views: 12,  clicks: 0,  ctr: '0.00%', spend: '0.00',  atc: 0, worst: true },
+    { name: 'Handmade Rug - ar',views: 6,   clicks: 0,  ctr: '0.00%', spend: '0.00',  atc: 0, worst: true },
+    { name: 'Silk Rug - ar',    views: 2,   clicks: 0,  ctr: '0.00%', spend: '0.00',  atc: 0, worst: true },
+  ],
+  campaignTotals: { views: 937, clicks: 27, spend: '54.93', atc: 1, orders: 0 },
+  split: [
+    { label: 'نمایش محصول (Impressions)', total: 4751, ads: 937, organic: 3814 },
+    { label: 'مشاهده صفحه محصول (GV)',    total: 172,  ads: 27,  organic: 145 },
+    { label: 'افزودن به سبد خرید',        total: 10,   ads: 1,   organic: 9 },
+  ],
+  notes: [
+    '<b>نرخ تبدیل خرید صفر است</b> — از ۱۷۲ مشاهده صفحه محصول و ۱۰ افزودن به سبد خرید، هنوز هیچ خریدی ثبت نشده. باید قیمت‌گذاری، عکس‌ها، توضیحات محصول و روش‌های ارسال/پرداخت روی نون بررسی بشه.',
+    '<b>دو محصولی که بیشترین نمایش رو گرفتن</b> — Modern Tabriz Pink Flower Rug (۲۱۴ نمایش) و Tabriz Distressed Patina Rug (۲۰۴ نمایش) — هر دو هم داخل کمپین تبلیغاتی بودن و هم اولین محصولاتی بودن که عکس دیزاین فضای منزل (Nano Banana 2) براشون ساخته شد؛ به نظر می‌رسه ترکیب کمپین + عکس دیزاین باعث نمایش به‌مراتب بیشتر نسبت به بقیه محصولات شده — سیگنال خوبی برای گسترش این عکس‌ها به بقیه کاتالوگ.',
+    '<b>کمپین‌های انگلیسی بهتر از عربی عمل می‌کنن</b> — Silk Rug-en با CTR ۶.۹٪ و Persian Rug-en با ۵۴۵ نمایش، بهترین عملکرد رو دارن؛ نسخه‌های عربی به‌طور کلی نمایش و کلیک کمتری می‌گیرن.',
+    '۴ کمپین (Luxury Rug-en/ar، Handmade Rug-ar، Silk Rug-ar) عملاً نمایش یا کلیکی نگرفتن با وجود بودجه فعال — پیشنهاد می‌شه یا کلمات کلیدی‌شون بازبینی بشه یا بودجه‌شون به کمپین‌های پربازده (Persian Rug-en) منتقل بشه.',
+    'مجموع هزینه تبلیغات در این بازه: <b>۵۴.۹۳ AED</b> برای ۹۳۷ نمایش و ۲۷ کلیک — با توجه به صفر بودن خرید، هزینه به ازای هر فروش هنوز قابل محاسبه نیست.',
+    '<b>حداقل بازدید لازم برای فروش</b> — با فرض نرخ تبدیل خوش‌بینانه ۲٪ (یعنی هر صفحه محصول باید حدود ۵۰ بار دیده بشه تا آماری برای یک فروش شکل بگیره)، مشکل اصلی الان تعداد بازدیده: از کل ۱۷۲ مشاهده صفحه محصول در این بازه، حتی پربازدیدترین محصول احتمالاً به این آستانه نرسیده. یعنی مشکل فعلاً کیفیت صفحه محصول نیست، حجم ترافیکه — تمرکز روی افزایش نمایش و کلیک (چه از کمپین، چه ارگانیک) اولویت اول باید باشه.',
+  ],
+};
+
+function renderChips(){
+  const root = document.getElementById('domain-chips');
+  const domainKeys = Object.keys(DOMAINS);
+  const chips = [{key:'all', label:'همه'}, ...domainKeys.map(k => ({key:k, label:DOMAINS[k].label}))];
+  root.innerHTML = '';
+  chips.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = c.label;
+    btn.setAttribute('aria-pressed', String(c.key === currentDomain));
+    btn.addEventListener('click', () => { currentDomain = c.key; render(); });
+    root.appendChild(btn);
+  });
+}
+
+function iconSvg(status){
+  if(status === 'done'){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+  }
+  return '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg>';
+}
+
+function renderInsights(){
+  const root = document.getElementById('list-root');
+  const f = INSIGHTS.funnel;
+  const funnelHtml = f.map(s => `
+    <div class="funnel-stage ${s.zero ? 'zero' : ''}">
+      <p class="fs-label">${s.label}</p>
+      <p class="fs-value">${s.value}</p>
+      ${s.pct ? `<p class="fs-pct">${s.pct}</p>` : ''}
+    </div>
+  `).join('');
+
+  const rows = INSIGHTS.campaigns.map(c => `
+    <tr class="${c.best ? 'best' : ''} ${c.worst ? 'worst' : ''}">
+      <td class="name">${c.name}</td>
+      <td class="num">${c.views}</td>
+      <td class="num">${c.clicks}</td>
+      <td class="num">${c.ctr}</td>
+      <td class="num">${c.spend}</td>
+      <td class="num">${c.atc}</td>
+    </tr>
+  `).join('');
+
+  const notesHtml = INSIGHTS.notes.map(n => `<div class="note-item">${n}</div>`).join('');
+
+  root.innerHTML = `
+    <div class="insights-section">
+      <p class="insights-heading">قیف فروش پلتفرم نون</p>
+      <p class="insights-sub">بازه: ${INSIGHTS.period}</p>
+      <div class="funnel-row">${funnelHtml}</div>
+      <div class="split-list">
+        ${INSIGHTS.split.map(s => {
+          const adsPct = Math.round((s.ads / s.total) * 1000) / 10;
+          const orgPct = Math.round((s.organic / s.total) * 1000) / 10;
+          return `
+          <div class="split-row">
+            <div class="split-label"><span>${s.label}</span><span>از ${s.total.toLocaleString('fa-IR')}</span></div>
+            <div class="split-bar">
+              <div class="seg-ads" style="width:${adsPct}%"></div>
+              <div class="seg-organic" style="width:${orgPct}%"></div>
+            </div>
+            <div class="split-values">
+              <span class="v-ads">کمپین‌ها: ${s.ads.toLocaleString('fa-IR')} (${adsPct}٪)</span>
+              <span class="v-organic">ارگانیک: ${s.organic.toLocaleString('fa-IR')} (${orgPct}٪)</span>
+            </div>
+          </div>`;
+        }).join('')}
+        <div class="split-legend">
+          <span><i style="background:var(--red)"></i>کمپین‌های تبلیغاتی</span>
+          <span><i style="background:var(--mushroom)"></i>ارگانیک</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="insights-section">
+      <p class="insights-heading">گزارش کمپین‌های تبلیغاتی</p>
+      <p class="insights-sub">مجموع: ${INSIGHTS.campaignTotals.views} نمایش، ${INSIGHTS.campaignTotals.clicks} کلیک، ${INSIGHTS.campaignTotals.spend} AED هزینه، ${INSIGHTS.campaignTotals.atc} افزودن به سبد، ${INSIGHTS.campaignTotals.orders} خرید</p>
+      <div class="table-wrap">
+        <table class="campaign-table">
+          <thead>
+            <tr>
+              <th>کمپین</th><th>نمایش</th><th>کلیک</th><th>CTR</th><th>هزینه (AED)</th><th>افزودن به سبد</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="insights-section">
+      <p class="insights-heading">تحلیل و پیشنهاد بهبود</p>
+      <div class="notes-list">${notesHtml}</div>
+    </div>
+  `;
+}
+
+function render(){
+  document.getElementById('tab-upcoming').setAttribute('aria-selected', String(currentView === 'upcoming'));
+  document.getElementById('tab-done').setAttribute('aria-selected', String(currentView === 'done'));
+  document.getElementById('tab-insights').setAttribute('aria-selected', String(currentView === 'insights'));
+
+  const upcomingCount = TASKS.filter(t => t.status === 'upcoming').length;
+  const doneCount = TASKS.filter(t => t.status === 'done').length;
+  document.getElementById('count-upcoming').textContent = upcomingCount;
+  document.getElementById('count-done').textContent = doneCount;
+
+  const chipsEl = document.getElementById('domain-chips');
+  const root = document.getElementById('list-root');
+
+  if(currentView === 'insights'){
+    chipsEl.style.display = 'none';
+    renderInsights();
+    return;
+  }
+  chipsEl.style.display = '';
+
+  renderChips();
+
+  const filtered = TASKS.filter(t => t.status === currentView && (currentDomain === 'all' || t.domain === currentDomain));
+  root.innerHTML = '';
+
+  if(filtered.length === 0){
+    root.innerHTML = '<div class="empty">در این بخش فعلاً کاری ثبت نشده.</div>';
+    return;
+  }
+
+  const domainOrder = ['dev','seo','noon'];
+  domainOrder.forEach(domKey => {
+    const items = filtered.filter(t => t.domain === domKey);
+    if(items.length === 0) return;
+    const group = document.createElement('div');
+    group.className = 'group';
+    group.innerHTML = `
+      <div class="group-title">
+        <span class="dot" style="background:${DOMAINS[domKey].color}"></span>
+        ${DOMAINS[domKey].label}
+        <span class="num">(${items.length})</span>
+      </div>
+      <div class="card-list"></div>
+    `;
+    const list = group.querySelector('.card-list');
+    items.forEach(t => {
+      const card = document.createElement('div');
+      card.className = `card ${t.domain} is-${t.status}`;
+      card.innerHTML = `
+        <span class="status-icon">${iconSvg(t.status)}</span>
+        <div class="card-body">
+          <p class="card-title">${t.title}</p>
+          ${t.note ? `<p class="card-note">${t.note}</p>` : ''}
+        </div>
+      `;
+      list.appendChild(card);
+    });
+    root.appendChild(group);
+  });
+}
+
+document.getElementById('tab-upcoming').addEventListener('click', () => { currentView='upcoming'; render(); });
+document.getElementById('tab-done').addEventListener('click', () => { currentView='done'; render(); });
+document.getElementById('tab-insights').addEventListener('click', () => { currentView='insights'; render(); });
+
+document.getElementById('updated-label').textContent = 'به‌روزرسانی: ' + new Intl.DateTimeFormat('fa-IR', { year:'numeric', month:'long', day:'numeric' }).format(new Date());
+
+render();
+</script>
+</body>
+</html>
